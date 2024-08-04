@@ -1,0 +1,4 @@
+export enum PaymentTypeEnum {
+  ONLINE_PAYMENT = 'ONLINE_PAYMENT',
+  CASH_ON_DELIVERY = 'CASH_ON_DELIVERY',
+}
