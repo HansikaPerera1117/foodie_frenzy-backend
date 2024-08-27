@@ -5,11 +5,11 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   Req,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Prefixes } from 'src/utils/prefixes';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductFiltersDto } from './dto/product-filters.dto';
 
@@ -17,15 +17,18 @@ import { ProductFiltersDto } from './dto/product-filters.dto';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Post(Prefixes.admin + 'product/' + 'create')
+  @Post('product/create')
   create(@Body() data: CreateProductDto) {
     return this.productService.create(data);
   }
 
-  // @Get(Prefixes.admin + 'product/' + 'find-by-name/' + ':name')
-  // findByProductByName(@Param('name') name: string) {
-  //   return this.productService.findByProductByName(name);
-  // }
+  @Patch('product/' + 'change-status' + '/:productId')
+  changeStatus(
+    @Param('productId') productId: string,
+    @Query('status') status: number,
+  ) {
+    return this.productService.changeStatus(productId, status);
+  }
   @Get('product/' + 'find-all')
   findAll(
     @Query('status') status: number,
@@ -44,5 +47,10 @@ export class ProductController {
       page,
     };
     return this.productService.findAll(filters);
+  }
+
+  @Put('product/' + 'update/' + ':productId')
+  update(@Param('productId') productId: string, @Body() data) {
+    return this.productService.update(productId, data);
   }
 }

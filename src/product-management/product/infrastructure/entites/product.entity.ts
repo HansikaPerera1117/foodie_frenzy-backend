@@ -1,4 +1,6 @@
 import { StatusEnum } from 'src/common/enum/status.enum';
+import { FileEntity } from 'src/files/infrastructure/entities/file.entity';
+import { ProductFileEntity } from 'src/product-file/infrastructure/entites/product-file.entity';
 import { CategoryEntity } from 'src/product-management/category/infrastructure/entites/category.entity';
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import {
@@ -34,6 +36,12 @@ export class ProductEntity extends EntityRelationalHelper {
   @ManyToOne(() => CategoryEntity, (category) => category.product)
   @JoinColumn({ name: 'categoryId' })
   category: CategoryEntity;
+
+  @OneToMany(
+    () => ProductFileEntity,
+    (productFile) => productFile.product,
+  )
+  productFile: ProductFileEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
