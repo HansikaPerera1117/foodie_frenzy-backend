@@ -96,7 +96,5 @@ export class FindAllParentCategoryMapper {
     }));
   }
 
-  // static productFileMapper(product) {
-  //   console.log(product);
-  // }
+
 }

@@ -71,16 +71,16 @@ export class StoreLocatorRepository implements StoreLocatorAbstractRepository {
     return this.storeLocatorRepository.delete({ id: storeLocatorId });
   }
   update(storeLocatorId: string, data: StoreLocatorDto) {
-    return this.storeLocatorRepository.update(
-      { id: storeLocatorId },
-      {
-        title: data.title,
-        addressLine: data.addressLine,
-        city: data.city,
-        postalCode: data.postalCode,
-        country: data.country,
-        url: data.url,
-      },
-    );
+    // return this.storeLocatorRepository.update(
+    //   { id: storeLocatorId },
+    //   {
+    //     title: data.title,
+    //     addressLine: data.addressLine,
+    //     city: data.city,
+    //     postalCode: data.postalCode,
+    //     country: data.country,
+    //     url: data.url,
+    //   },
+    // );
   }
 }

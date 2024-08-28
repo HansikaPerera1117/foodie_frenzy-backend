@@ -24,11 +24,7 @@ export class CategoryEntity extends EntityRelationalHelper {
   name: string;
 
   @Column({ nullable: true })
-  parentId: string | null;
-
-  @ManyToOne(() => CategoryEntity, { nullable: true })
-  @JoinColumn({ name: 'parentId' })
-  parent: CategoryEntity;
+  description: string;
 
   @ManyToOne(() => FileEntity, (file) => file.category)
   @JoinColumn({ name: 'fileId' })

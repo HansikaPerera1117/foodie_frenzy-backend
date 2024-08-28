@@ -26,14 +26,6 @@ export class CategoryService {
     return this.categoryRepository.findByName(name);
   }
 
-  findAllParentCategories(data: any) {
-    return this.categoryRepository.findAllParentCategories(data);
-  }
-
-  findAllSubCategoriesByParentId(parentId: string) {
-    return this.categoryRepository.findAllSubCategoriesByParentId(parentId);
-  }
-
   async create(data: CategoryDto) {
     return await this.categoryRepository.create(data);
   }
@@ -46,10 +38,5 @@ export class CategoryService {
     throw new HttpException('category not found', HttpStatus.NOT_FOUND);
   }
 
-  findAllTrendingNow() {
-    return this.categoryRepository.findAllTrendingNow();
-  }
-
-  changeStatus(categoryId: string, status: number) {
-  }
+  changeStatus(categoryId: string, status: number) {}
 }
