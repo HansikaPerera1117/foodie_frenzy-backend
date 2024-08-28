@@ -12,43 +12,18 @@ export class CategorySeedService {
   async run() {
     await this.create();
   }
+
   async create() {
-    for (const categoryName in categoryHierarchyObj) {
-      if (
-        Object.prototype.hasOwnProperty.call(categoryHierarchyObj, categoryName)
-      ) {
-        const categoryData = categoryHierarchyObj[categoryName];
-        let parentCategory = await this.categoryRepository.findOne({
-          where: { name: categoryName },
+    for (let cn of categoryHierarchyObj) {
+      const isExsits = await this.categoryRepository.findOne({
+        where: {
+          name: cn,
+        },
+      });
+      if (!isExsits) {
+        await this.categoryRepository.save({
+          name: cn,
         });
-
-        if (!parentCategory) {
-          // Create parent category if it doesn't exist
-          parentCategory = this.categoryRepository.create({
-            name: categoryName,
-          });
-          await this.categoryRepository.save(parentCategory);
-        }
-
-        if (categoryData.subcategories) {
-          for (const subcategoryName of categoryData.subcategories) {
-            const existingSubcategory = await this.categoryRepository.findOne({
-              where: {
-                name: subcategoryName,
-                parent: { id: parentCategory.id },
-              },
-            });
-
-            if (!existingSubcategory) {
-              // Create subcategory if it doesn't exist
-              const newSubcategory = this.categoryRepository.create({
-                name: subcategoryName,
-              });
-              newSubcategory.parent = parentCategory;
-              await this.categoryRepository.save(newSubcategory);
-            }
-          }
-        }
       }
     }
   }

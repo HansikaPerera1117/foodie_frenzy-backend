@@ -10,6 +10,7 @@ import { StatusSeedModule } from './status/status-seed.module';
 import { UserSeedModule } from './user/user-seed.module';
 import { PermissionSeedModule } from './permission/permission-seed.module';
 import { CategorySeedModule } from './category/category-seed.module';
+import { TableSeedModule } from './table-seed/table-seed.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CategorySeedModule } from './category/category-seed.module';
     }),
     PermissionSeedModule,
     CategorySeedModule,
+    TableSeedModule,
   ],
 })
 export class SeedModule {}
