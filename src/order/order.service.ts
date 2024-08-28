@@ -1,0 +1,17 @@
+import { Injectable } from '@nestjs/common';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { TransactionService } from 'src/transaction/transaction.service';
+import { PaymentTypeEnum } from 'src/common/enum/payment-type.enum';
+
+@Injectable()
+export class OrderService {
+  constructor(private readonly transactionService: TransactionService) {}
+
+  create(data: CreateOrderDto) {
+    if (data.paymentType == PaymentTypeEnum.CASH_ON_DELIVERY) {
+      return this.transactionService.createCashOnDeliveryOrderTransaction(data);
+    } else if (data.paymentType === PaymentTypeEnum.ONLINE_PAYMENT) {
+      return this.transactionService.createOnlinePaymentOrderTransaction(data);
+    }
+  }
+}

@@ -30,7 +30,13 @@ export class ProductService {
       }
     }
   }
-  findAll(filters: ProductFiltersDto) {
+  findAll(filters?: ProductFiltersDto) {
     return this.productRepository.findAll(filters);
+  }
+  changeStatus(productId: string, status: number) {
+    return this.productRepository.changeStatus(productId, status);
+  }
+  update(productId: string, data: any) {
+    return this.productRepository.update(productId, data);
   }
 }
