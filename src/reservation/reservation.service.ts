@@ -4,6 +4,15 @@ import { ReservationAbstractRepository } from './infrastructure/repositories/res
 
 @Injectable()
 export class ReservationService {
+  findOne(arg0: string): any {
+    throw new Error('Method not implemented.');
+  }
+  update(arg0: string, updateData: { email: string; }): any {
+    throw new Error('Method not implemented.');
+  }
+  delete(arg0: string): any {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     private readonly reservationRepository: ReservationAbstractRepository,
   ) {}
