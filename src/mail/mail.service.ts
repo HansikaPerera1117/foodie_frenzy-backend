@@ -3,6 +3,7 @@ import { SendgridService } from 'src/services/sendgrid/sendgrid.service';
 import * as path from 'path';
 import * as fs from 'fs';
 import { EmailActionEnum } from 'src/common/enum/email-action.enum';
+import { OrderStatusEnum } from 'src/common/enum/order-status.enum';
 
 @Injectable()
 export class MailService {
@@ -15,6 +16,7 @@ export class MailService {
 
       case EmailActionEnum.USER_CREDENTIALS:
         return this.userCredentials(data);
+
       case EmailActionEnum.CUSTOMER_VERIFIACTION:
         return this.customerVarification(data);
       default:
@@ -39,7 +41,7 @@ export class MailService {
     const message = {
       to: data.email,
       from: process.env.FROM_EMAIL,
-      subject: 'Address Shop Admin User Credentials',
+      subject: 'Your Login User Credentials',
       html: email_content,
     };
 
@@ -59,18 +61,20 @@ export class MailService {
     console.log(data);
 
     const orderCode = data.orderCode;
+    const subTotal = data.subTotal;
     const orderConfirmationPath = path.join(
       __dirname,
       'mail-templates',
       'order-confirmation.hbs',
     );
     const email_template = fs.readFileSync(orderConfirmationPath, 'utf8');
-    const email_content = email_template.replace('{{orderCode}}', orderCode);
-    //   .replace('{{ another data }}', another data);
+    const email_content = email_template
+      .replace('{{orderCode}}', orderCode)
+      .replace('{{subTotal}}', subTotal);
     const message = {
       to: data.email,
       from: process.env.FROM_EMAIL,
-      subject: 'Address Shop Order Confirmation',
+      subject: 'Your Order Confirmation',
       html: email_content,
     };
     try {
@@ -91,8 +95,8 @@ export class MailService {
     );
     const email_template = fs.readFileSync(email_template_path, 'utf8');
     const email_content = email_template
-      .replace('{{ username }}', username)
-      .replace('{{ password }}', password);
+      .replace('{{username}}', username)
+      .replace('{{password}}', password);
     const message = {
       to: email,
       from: process.env.FROM_EMAIL,
@@ -107,9 +111,6 @@ export class MailService {
   }
 
   async customerVarification(data: any) {
-    // console.log(data);
-
-    // const email = data.email;
     const otpMessage = data.message;
     const sendUserCredentialPath = path.join(
       __dirname,
@@ -123,6 +124,90 @@ export class MailService {
       to: data.email,
       from: process.env.FROM_EMAIL,
       subject: 'Address Shop Customer Verfication',
+      html: email_content,
+    };
+
+    try {
+      return await this.sendGridService.sendEmail(message);
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  }
+
+  async sendReservationApproveOrReject(data) {
+    const reservationCode = data.reservationCode;
+    const reservationDate = data.date;
+    const reservationTime = data.time;
+    const personCount = data.personCount;
+    const email = data.email;
+    if (data.status === OrderStatusEnum.ACCEPT) {
+      const sendUserCredentialPath = path.join(
+        __dirname,
+        'mail-templates',
+        'reservation.accept.hbs',
+      );
+      const email_template = fs.readFileSync(sendUserCredentialPath, 'utf8');
+      const email_content = email_template
+        .replace('{{reservationDate}}', reservationDate)
+        .replace('{{reservationCode}}', reservationCode)
+        .replace('{{reservationTime}}', reservationTime)
+        .replace('{{personCount}}', personCount);
+
+      const message = {
+        to: email,
+        from: process.env.FROM_EMAIL,
+        subject: ' Your Reservation Confirmation ',
+        html: email_content,
+      };
+
+      try {
+        return await this.sendGridService.sendEmail(message);
+      } catch (error) {
+        console.error('Error sending email:', error);
+      }
+    } else {
+      const sendUserCredentialPath = path.join(
+        __dirname,
+        'mail-templates',
+        'reservation.reject.hbs',
+      );
+      const email_template = fs.readFileSync(sendUserCredentialPath, 'utf8');
+      const email_content = email_template
+        .replace('{{reservationDate}}', reservationDate)
+        .replace('{{reservationCode}}', reservationCode)
+        .replace('{{reservationTime}}', reservationTime)
+        .replace('{{personCount}}', personCount);
+
+      const message = {
+        to: email,
+        from: process.env.FROM_EMAIL,
+        subject: ' Your Reservation Confirmation ',
+        html: email_content,
+      };
+
+      try {
+        return await this.sendGridService.sendEmail(message);
+      } catch (error) {
+        console.error('Error sending email:', error);
+      }
+    }
+  }
+  async sendReplyInquire(email: any, adminMessage: any) {
+    const sendUserCredentialPath = path.join(
+      __dirname,
+      'mail-templates',
+      'reply.hbs',
+    );
+    const email_template = fs.readFileSync(sendUserCredentialPath, 'utf8');
+    const email_content = email_template.replace(
+      '{{adminMessage}}',
+      adminMessage,
+    );
+
+    const message = {
+      to: email,
+      from: process.env.FROM_EMAIL,
+      subject: ' Your Inquire Reply ',
       html: email_content,
     };
 
