@@ -1,0 +1,17 @@
+export const TableSeedObj = [
+  { name: 'A1', personCount: 1 },
+  { name: 'A2', personCount: 1 },
+  { name: 'A3', personCount: 1 },
+  { name: 'A4', personCount: 2 },
+  { name: 'A5', personCount: 2 },
+  { name: 'A6', personCount: 2 },
+  { name: 'A7', personCount: 2 },
+  { name: 'A8', personCount: 4 },
+  { name: 'A9', personCount: 4 },
+  { name: 'B1', personCount: 4 },
+  { name: 'B2', personCount: 8 },
+  { name: 'B3', personCount: 8 },
+  { name: 'B4', personCount: 8 },
+  { name: 'B5', personCount: 8 },
+  { name: 'B6', personCount: 8 },
+];

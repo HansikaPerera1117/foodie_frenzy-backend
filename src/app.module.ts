@@ -52,8 +52,6 @@ import { MailModule } from './mail/mail.module';
 import { SendgridModule } from './services/sendgrid/sendgrid.module';
 
 import { StoreLocatorModule } from './store-locator/store-locator.module';
-import { SeylanMastercardModule } from './services/payment-gateways/seylan-mastercard/seylan-mastercard.module';
-import { TestModule } from './services/payment-gateways/test/test.module';
 
 @Module({
   imports: [
@@ -125,8 +123,6 @@ import { TestModule } from './services/payment-gateways/test/test.module';
     MailModule,
     SendgridModule,
     StoreLocatorModule,
-    SeylanMastercardModule,
-    TestModule,
   ],
   providers: [CleanupService, CacheMiddleware],
   exports: [CleanupService],

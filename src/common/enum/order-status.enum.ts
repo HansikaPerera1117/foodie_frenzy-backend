@@ -5,4 +5,5 @@ export enum OrderStatusEnum {
   DELIVERED = 'DELIVERED', // order deliverd to customer and resived by customer
   CANCELLED = 'CANCELLED', //order has benn cancelld by customer
   REJECTED = 'REJECTED', // order has been rejected by admin
+  ACCEPT = 'ACCEPT',
 }

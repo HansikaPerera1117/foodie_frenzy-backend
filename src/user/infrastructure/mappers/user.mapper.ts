@@ -24,8 +24,6 @@ export class UserMapper {
         password: source.password,
         email: source.email,
         status: source.status,
-        deviceId: source.deviceId,
-        fcmToken: source.fcmToken,
         createdAt: source.createdAt,
         staff: source.staff
           ? {
@@ -36,7 +34,6 @@ export class UserMapper {
           ? {
               id: source.customer?.id,
               contactNo: source.customer?.contactNo,
-              dialCode: source.customer?.dialCode,
             }
           : undefined,
 
