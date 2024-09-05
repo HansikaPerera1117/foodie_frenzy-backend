@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PaymentAbstractRepository } from './infrastructure/repositories/payment.abstract.repository';
 import { PaymentFiltersDto } from './dto/payment-filters.dto';
 import { TransactionService } from 'src/transaction/transaction.service';
+import { AdvancePaymentDto } from './dto/advancePayment.dto';
 
 @Injectable()
 export class PaymentService {
@@ -9,6 +10,10 @@ export class PaymentService {
     private readonly paymentRepository: PaymentAbstractRepository,
     // private readonly transactionService:TransactionService
   ) {}
+
+  makeAdvancePayment(data: AdvancePaymentDto) {
+    return this.paymentRepository.makeAdvancePayment(data);
+  }
 
   // updateOnlineTransactionResponseByOrderId(
   //   orderId: string,
@@ -22,5 +27,9 @@ export class PaymentService {
 
   findAll(filters: PaymentFiltersDto) {
     return this.paymentRepository.findAll(filters);
+  }
+
+  findById(paymentId: string) {
+    return this.paymentRepository.findById(paymentId);
   }
 }

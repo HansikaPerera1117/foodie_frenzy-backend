@@ -1,6 +1,7 @@
 import { StatusEnum } from 'src/common/enum/status.enum';
 import { CustomerEntity } from 'src/customer/infrastructure/entites/customer.entity';
 import { FileEntity } from 'src/files/infrastructure/entities/file.entity';
+import { ReservationEntity } from 'src/reservation/infrastructure/entites/reservation.entity';
 import { ReviewEntity } from 'src/review/infrastructure/entites/review.entity';
 import { RoleEntity } from 'src/role-permission-management/role/infrastructure/entites/role.entity';
 import { StaffEntity } from 'src/staff/infrastructure/entites/staff.entity';
@@ -52,9 +53,6 @@ export class UserEntity extends EntityRelationalHelper {
   @Column({ type: String, nullable: true })
   deviceId: string;
 
-  @Column({ type: String, nullable: true })
-  fcmToken: string;
-
   @OneToOne(() => StaffEntity, (staff) => staff.user)
   staff: StaffEntity;
 
@@ -69,19 +67,17 @@ export class UserEntity extends EntityRelationalHelper {
   @JoinColumn({ name: 'reviewId' })
   review: ReviewEntity[];
 
-  
+  @OneToMany(() => ReservationEntity, (reservation) => reservation.user, {
+    nullable: true,
+  })
+  reservation: ReservationEntity[];
 
   @OneToOne(() => FileEntity, (file) => file.user, { nullable: true })
   @JoinColumn({ name: 'fileId' })
   file: FileEntity;
 
-
-
-
-
   @OneToMany(() => StockEntity, (stock) => stock.user)
   stock: StockEntity[];
-
 
   @CreateDateColumn()
   createdAt: Date;

@@ -1,19 +1,13 @@
-import { UpdatePaymentTransactionResponseDto } from 'src/payment/dto/update-payment-transaction-response.dto';
-import { CreateOrderTransactionDto } from 'src/transaction/dto/transaction-create-order.dto';
+import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 
 export abstract class TransactionAbstractRepository {
-  abstract updateOnlineTransactionResponseByOrderId(
-    orderId: string,
-    data: UpdatePaymentTransactionResponseDto,
-  );
+ 
 
-  abstract createOnlinePaymentOrderTransaction(data: CreateOrderTransactionDto);
-
+  abstract createOnlinePaymentOrderTransaction(data: CreateOrderDto);
 
   abstract createStaff(data: any);
 
   abstract registerCustomer(data);
 
-
-
+  abstract createCashOnDeliveryOrderTransaction(data: CreateOrderDto);
 }

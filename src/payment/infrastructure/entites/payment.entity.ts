@@ -1,10 +1,6 @@
 import { PaymentStatusEnum } from 'src/common/enum/payment-status.enum';
-import { StatusEnum } from 'src/common/enum/status.enum';
-import { ProductEntity } from 'src/product-management/product/infrastructure/entites/product.entity';
-import { PermissionEntity } from 'src/role-permission-management/permission/infrastructure/entites/permission.entity';
-import { Role } from 'src/role-permission-management/role/domain/role';
-import { RoleEntity } from 'src/role-permission-management/role/infrastructure/entites/role.entity';
-import { UserEntity } from 'src/user/infrastructure/entities/user.entity';
+import { OrderEntity } from 'src/order/infrastructure/entites/order.entity';
+import { ReservationEntity } from 'src/reservation/infrastructure/entites/reservation.entity';
 import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import {
   Column,
@@ -12,7 +8,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -24,12 +20,21 @@ export class PaymentEntity extends EntityRelationalHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true, type: 'float' })
+  amount: number;
 
-  @Column()
+  @Column({ default: PaymentStatusEnum.SUCCESS })
   status: string;
 
   @Column({ type: 'jsonb', nullable: true })
   callBackResponse: Record<string, any>;
+
+  @OneToOne(() => ReservationEntity, (reservation) => reservation.payment)
+  reservation: ReservationEntity;
+
+  @ManyToOne(() => OrderEntity, (order) => order.payment)
+  @JoinColumn({ name: 'orderId' })
+  order: OrderEntity;
 
   @CreateDateColumn()
   createdAt: Date;

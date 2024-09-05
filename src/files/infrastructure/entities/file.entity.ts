@@ -5,8 +5,6 @@ import {
   AfterLoad,
   AfterInsert,
   CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   OneToMany,
   JoinColumn,
   OneToOne,
@@ -15,8 +13,10 @@ import { EntityRelationalHelper } from 'src/utils/relational-entity-helper';
 import appConfig from '../../../config/app.config';
 import { AppConfig } from 'src/config/app-config.type';
 import { CategoryEntity } from 'src/product-management/category/infrastructure/entites/category.entity';
-import { ProductEntity } from 'src/product-management/product/infrastructure/entites/product.entity';
 import { UserEntity } from 'src/user/infrastructure/entities/user.entity';
+import { ProductFileEntity } from 'src/product-file/infrastructure/entites/product-file.entity';
+import { DiscountEntity } from 'src/discount/infrastructure/entites/discount.entity';
+import { GalleryEntity } from 'src/gallery/infrastructure/entites/gallery.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityRelationalHelper {
@@ -60,15 +60,22 @@ export class FileEntity extends EntityRelationalHelper {
   }
 
   @OneToMany(() => CategoryEntity, (category) => category.file)
-  @JoinColumn({ name: 'categoryId' })
   category: CategoryEntity[];
 
-
-
-
+  @OneToMany(() => ProductFileEntity, (productFile) => productFile.file)
+  @JoinColumn({ name: 'productFileId' })
+  productFile: ProductFileEntity[];
 
   @OneToOne(() => UserEntity, (user) => user.file)
   user: UserEntity;
+
+  @OneToOne(() => DiscountEntity, (discount) => discount.file)
+  @JoinColumn({ name: 'discountId' })
+  discount: DiscountEntity;
+
+  @OneToMany(() => GalleryEntity, (gallery) => gallery.file)
+  @JoinColumn({ name: 'galleryId' })
+  gallery: GalleryEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
