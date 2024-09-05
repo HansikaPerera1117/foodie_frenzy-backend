@@ -1,23 +1,17 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { Prefixes } from 'src/utils/prefixes';
 import { PaymentFiltersDto } from './dto/payment-filters.dto';
+import { AdvancePaymentDto } from './dto/advancePayment.dto';
 
 @Controller()
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  // @Put(Prefixes.customer + 'payment/' + 'update/transaction-response/:orderId')
-  // updateOnlineTransactionResponseByOrderId(
-  //   @Param('orderId') orderId: string,
-  //   @Body() data,
-  // ) {
-
-  //   // return this.paymentService.updateOnlineTransactionResponseByOrderId(
-  //   //   orderId,
-  //   //   data,
-  //   // );
-  // }
+  @Post('payment/' + 'advance-payment/' + 'create')
+  makeAdvancePayment(@Body() data: AdvancePaymentDto) {
+    return this.paymentService.makeAdvancePayment(data);
+  }
 
   @Get(Prefixes.admin + 'payment/' + 'find-all')
   findAll(
@@ -43,5 +37,10 @@ export class PaymentController {
       perPage,
     };
     return this.paymentService.findAll(filters);
+  }
+
+  @Get('payment/' + 'find-by-id/:paymentId')
+  findById(@Param('paymentId') paymentId: string) {
+    return this.paymentService.findById(paymentId);
   }
 }
